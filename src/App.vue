@@ -15,7 +15,7 @@
           Precisamos de profissionais urgente dispostos a ajudar a combater o Corona Vírus
         </p>
 
-        <div class="flex justify-around flex-wrap mt-8">
+        <div class="flex justify-around flex-wrap">
           <a
             href="#"
             class="w-full lg:w-2/5 rounded shadow-md bg-white p-4 m-4 border-gray-100 border-2 hover:border-blue-500"
@@ -26,7 +26,87 @@
 
         </div>
 
-        <h2 class="text-center text-blue-800 font-bold uppercase mt-12">Cadastro do Contato</h2>
+        <h2 class="text-center text-gray-700 font-bold uppercase pt-12">Convid-19 pelo Brasil</h2>
+
+        <div class="flex flex-col mt-12">
+          <div class="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
+            <div class="align-middle inline-block min-w-full shadow overflow-hidden sm:rounded-lg border-b border-gray-200">
+              <table class="min-w-full">
+                <thead>
+                  <tr>
+                    <th class="px-6 py-3 border-b border-gray-200 bg-blue-50 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
+                      Estado
+                    </th>
+                    <th class="px-6 py-3 border-b border-gray-200 bg-blue-50 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
+                      Casos
+                    </th>
+                    <th class="px-6 py-3 border-b border-gray-200 bg-blue-50 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
+                      mortes
+                    </th>
+                    <th class="px-6 py-3 border-b border-gray-200 bg-blue-50 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
+                      enfermeiros
+                    </th>
+
+                    <th class="px-6 py-3 border-b border-gray-200 bg-blue-50 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
+                      médicos
+                    </th>
+
+                    <th class="px-6 py-3 border-b border-gray-200 bg-blue-50 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
+                      auxiliares de enfermagem
+                    </th>
+
+                    <th class="px-6 py-3 border-b border-gray-200 bg-blue-50 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
+                      Outros
+                    </th>
+
+                    <th class="px-6 py-3 border-b border-gray-200 bg-blue-50 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
+                      Auxiliares
+                    </th>
+
+                  </tr>
+                </thead>
+                <tbody class="bg-gray-100">
+                  <tr
+                    v-for="(item, index) in summary"
+                    :key="index"
+                  >
+                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                      {{ item.state }}
+                    </td>
+                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                      {{ item.totalCases }}
+                    </td>
+                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                      {{ item.totalDeaths }}
+                    </td>
+                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                      {{ item.totalNurses }}
+                    </td>
+
+                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                      {{ item.totalDoctors }}
+                    </td>
+
+                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                      {{ item.totalNursingTechnicals }}
+                    </td>
+
+                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                      {{ item.totalMaintainers }}
+                    </td>
+
+                    <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                      {{ item.totalHelpers }}
+                    </td>
+
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <h2 class="text-center text-blue-800 font-bold uppercase mt-12">Cadastro do Voluntário</h2>
 
         <form
           class="mt-12"
@@ -115,11 +195,12 @@
           <div class="mt-8">
             <a
               href=""
-              class="bg-blue-700 py-3 p-4 rounded text-white font-bold upppercase hover:bg-blue-600"
+              class="block w-full bg-blue-700 py-3 p-4 rounded text-center text-white font-bold upppercase hover:bg-blue-600"
             >Quero ajudar</a>
           </div>
 
         </form>
+
       </div>
 
     </div>
@@ -131,5 +212,41 @@
 
 export default {
   name: 'App',
+  data () {
+    return {
+      summary: [
+        {
+          "state": "RJ",
+          "totalCases": 1000,
+          "totalDeaths": 100,
+          "totalNurses": 17,
+          "totalDoctors": 7,
+          "totalNursingTechnicals": 30,
+          "totalMaintainers": 12,
+          "totalHelpers": 66
+        },
+        {
+          "state": "SP",
+          "totalCases": 1000,
+          "totalDeaths": 100,
+          "totalNurses": 13,
+          "totalDoctors": 5,
+          "totalNursingTechnicals": 22,
+          "totalMaintainers": 0,
+          "totalHelpers": 40
+        },
+        {
+          "state": "MG",
+          "totalCases": 1000,
+          "totalDeaths": 100,
+          "totalNurses": 7,
+          "totalDoctors": 5,
+          "totalNursingTechnicals": 0,
+          "totalMaintainers": 0,
+          "totalHelpers": 12
+        }
+      ]
+    }
+  }
 }
 </script>
