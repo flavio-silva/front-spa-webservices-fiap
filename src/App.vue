@@ -1,14 +1,12 @@
 <template>
-  <div
-    id="app"
-    class="h-screen"
-  >
+  <div id="app">
 
-    <div class="flex justify-center items-center bg-gray-300 p-12">
-      <div class=" bg-white rounded lg:p-12 md:p-6">
+    <div class="flex justify-center items-center bg-blue-900 p-12">
+      <div class=" bg-white rounded lg:p-12 sm:p-8">
         <div class="flex justify-center">
+
           <img src="https://img.icons8.com/ios/50/000000/coronavirus.png" />
-          <h1 class="text-blue-600 text-center font-bold uppercase pt-6 ">Projeto Corona SubZero</h1>
+          <h1 class="text-blue-600 text-center font-bold uppercase pt-6 pl-4">Projeto Corona SubZero</h1>
         </div>
 
         <p class="text-center text-gray-700 uppercase font-bold py-12">
@@ -18,7 +16,7 @@
         <div class="flex justify-around flex-wrap">
           <a
             href="#"
-            class="w-full lg:w-2/5 rounded shadow-md bg-white p-4 m-4 border-gray-100 border-2 hover:border-blue-500"
+            class="w-full sm:w-2/5 rounded shadow-md bg-white p-4 m-4 border-gray-100 border-2 hover:border-blue-500"
           >
             <h2 class="text-center text-gray-700 font-bold">Infectados no Brasil</h2>
             <p class="text-gray-700 py-4 text-center">3.573</p>
@@ -60,7 +58,7 @@
                     </th>
 
                     <th class="px-6 py-3 border-b border-gray-200 bg-blue-50 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
-                      Auxiliares
+                      Total
                     </th>
 
                   </tr>
@@ -106,9 +104,10 @@
           </div>
         </div>
 
-        <h2 class="text-center text-blue-800 font-bold uppercase mt-12">Cadastro do Voluntário</h2>
+        <h2 class="text-center text-blue-800 font-bold uppercase mt-12">Cadastro de Voluntário</h2>
 
         <form
+          @submit.prevent="getSummary"
           class="mt-12"
           action=""
           method="POST"
@@ -123,6 +122,7 @@
               type="text"
               name="name"
               id="name"
+              v-model="volunteer.name"
               class="w-full py-3 px-2 outline-none border-b-2 focus:border-blue-700 text-gray-700"
               placeholder="Digite o seu nome"
               required
@@ -138,6 +138,7 @@
               type="email"
               name="email"
               id="email"
+              v-model="volunteer.email"
               class="w-full py-3 px-2 outline-none border-b-2 focus:border-blue-700 text-gray-700"
               placeholder="meuemail@email.com"
               required
@@ -153,6 +154,7 @@
               type="tel"
               name="phone"
               id="phone"
+              v-model="volunteer.phone"
               class="w-full py-3 px-2 outline-none border-b-2 focus:border-blue-700 text-gray-700"
               placeholder="(XX) X-XXXX-XXXX"
               required
@@ -168,8 +170,9 @@
               type="text"
               name="doc"
               id="doc"
+              v-model="volunteer.doc"
               class="w-full py-3 px-2 outline-none border-b-2 focus:border-blue-700 text-gray-700"
-              placeholder="Digite o número do seu documento"
+              placeholder="RG ou CPF"
               required
             >
           </div>
@@ -183,6 +186,7 @@
               type="text"
               name="city"
               id="city"
+              v-model="volunteer.city"
               class="w-full py-3 px-2 outline-none border-b-2 focus:border-blue-700 text-gray-700"
               placeholder="Cidade"
               required
@@ -199,6 +203,8 @@
               name="state"
               id="state"
               class="block appearance-none bg-gray-200 w-full py-3 px-2 outline-none"
+              v-model="volunteer.state"
+              required
             >
               <option value="AC">Acre</option>
               <option value="AL">Alagoas</option>
@@ -241,6 +247,7 @@
               name="jobType"
               id="jobType"
               class="block appearance-none bg-gray-200 w-full py-3 px-2 outline-none"
+              v-model="volunteer.jobType"
               required
             >
               <option value="">Selecione uma profissão</option>
@@ -252,11 +259,10 @@
           </div>
 
           <div class="mt-8">
-            <a
-              href=""
-              @click.prevent="getSummary"
+            <button
+              @click.prevent="saveVolunteer"
               class="block w-full bg-blue-700 py-3 p-4 rounded text-center text-white font-bold upppercase hover:bg-blue-600"
-            >Quero ajudar</a>
+            >Quero ajudar</button>
           </div>
 
         </form>
@@ -269,58 +275,60 @@
 </template>
 
 <script>
-// import api from './services/api'
+import api from './services/api'
 import Swal from 'sweetalert2';
 
 export default {
   name: 'App',
-  created () {
-
+  mounted () {
+    this.fetchSummary();
   },
 
   methods: {
-    getSummary () {
-      Swal.fire(
-        `Você foi cadastrado`,
-        'Obrigado por ajudar. Em breve entraremos em contato',
-        'success'
-      )
+
+    fetchSummary () {
+      api.get('/summary').then(response => {
+        console.log(response);
+        this.summary = response.data;
+      });
+    },
+
+    saveVolunteer () {
+      console.log(this.volunteer);
+
+      api.post('', {
+        name: this.volunteer.name,
+        city: this.volunteer.city,
+        state: this.volunteer.state,
+        jobType: this.volunteer.jobType,
+        doc: this.volunteer.doc,
+        active: true,
+
+      }).then(response => {
+        console.log(response);
+
+        this.fetchSummary();
+        this.volunteer = {};
+
+        Swal.fire(
+          `Você foi cadastrado`,
+          'Obrigado por ajudar. Em breve entraremos em contato',
+          'success'
+        )
+      }).catch(error => {
+        console.log(error);
+
+        Swal.fire({
+          type: 'error',
+          text: 'Erro ao cadastrar o voluntário',
+        })
+      })
     }
   },
   data () {
     return {
-      summary: [
-        {
-          "state": "RJ",
-          "totalCases": 1000,
-          "totalDeaths": 100,
-          "totalNurses": 17,
-          "totalDoctors": 7,
-          "totalNursingTechnicals": 30,
-          "totalMaintainers": 12,
-          "totalHelpers": 66
-        },
-        {
-          "state": "SP",
-          "totalCases": 1000,
-          "totalDeaths": 100,
-          "totalNurses": 13,
-          "totalDoctors": 5,
-          "totalNursingTechnicals": 22,
-          "totalMaintainers": 0,
-          "totalHelpers": 40
-        },
-        {
-          "state": "MG",
-          "totalCases": 1000,
-          "totalDeaths": 100,
-          "totalNurses": 7,
-          "totalDoctors": 5,
-          "totalNursingTechnicals": 0,
-          "totalMaintainers": 0,
-          "totalHelpers": 12
-        }
-      ]
+      volunteer: {},
+      summary: []
     }
   }
 }
