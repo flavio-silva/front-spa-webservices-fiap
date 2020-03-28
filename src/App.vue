@@ -122,8 +122,39 @@
             <input
               type="text"
               name="name"
+              id="name"
               class="w-full py-3 px-2 outline-none border-b-2 focus:border-blue-700 text-gray-700"
               placeholder="Digite o seu nome"
+              required
+            >
+          </div>
+
+          <div class="mt-6">
+            <label
+              for="email"
+              class="text-gray-700 pl-2 font-bold text-sm"
+            >Email</label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              class="w-full py-3 px-2 outline-none border-b-2 focus:border-blue-700 text-gray-700"
+              placeholder="meuemail@email.com"
+              required
+            >
+          </div>
+
+          <div class="mt-6">
+            <label
+              for="phone"
+              class="text-gray-700 pl-2 font-bold text-sm"
+            >Telefone</label>
+            <input
+              type="tel"
+              name="phone"
+              id="phone"
+              class="w-full py-3 px-2 outline-none border-b-2 focus:border-blue-700 text-gray-700"
+              placeholder="(XX) X-XXXX-XXXX"
               required
             >
           </div>
@@ -163,14 +194,42 @@
               for="state"
               class="text-gray-700 pl-2 font-bold text-sm"
             >Estado</label>
-            <input
-              type="text"
+
+            <select
               name="state"
               id="state"
-              class="w-full py-3 px-2 outline-none border-b-2 focus:border-blue-700 text-gray-700"
-              placeholder="Estado"
-              required
+              class="block appearance-none bg-gray-200 w-full py-3 px-2 outline-none"
             >
+              <option value="AC">Acre</option>
+              <option value="AL">Alagoas</option>
+              <option value="AP">Amapá</option>
+              <option value="AM">Amazonas</option>
+              <option value="BA">Bahia</option>
+              <option value="CE">Ceará</option>
+              <option value="DF">Distrito Federal</option>
+              <option value="ES">Espírito Santo</option>
+              <option value="GO">Goiás</option>
+              <option value="MA">Maranhão</option>
+              <option value="MT">Mato Grosso</option>
+              <option value="MS">Mato Grosso do Sul</option>
+              <option value="MG">Minas Gerais</option>
+              <option value="PA">Pará</option>
+              <option value="PB">Paraíba</option>
+              <option value="PR">Paraná</option>
+              <option value="PE">Pernambuco</option>
+              <option value="PI">Piauí</option>
+              <option value="RJ">Rio de Janeiro</option>
+              <option value="RN">Rio Grande do Norte</option>
+              <option value="RS">Rio Grande do Sul</option>
+              <option value="RO">Rondônia</option>
+              <option value="RR">Roraima</option>
+              <option value="SC">Santa Catarina</option>
+              <option value="SP">São Paulo</option>
+              <option value="SE">Sergipe</option>
+              <option value="TO">Tocantins</option>
+              <option value="EX">Estrangeiro</option>
+            </select>
+
           </div>
 
           <div class="mt-6">
@@ -195,6 +254,7 @@
           <div class="mt-8">
             <a
               href=""
+              @click.prevent="getSummary"
               class="block w-full bg-blue-700 py-3 p-4 rounded text-center text-white font-bold upppercase hover:bg-blue-600"
             >Quero ajudar</a>
           </div>
@@ -209,9 +269,24 @@
 </template>
 
 <script>
+// import api from './services/api'
+import Swal from 'sweetalert2';
 
 export default {
   name: 'App',
+  created () {
+
+  },
+
+  methods: {
+    getSummary () {
+      Swal.fire(
+        `Você foi cadastrado`,
+        'Obrigado por ajudar. Em breve entraremos em contato',
+        'success'
+      )
+    }
+  },
   data () {
     return {
       summary: [
