@@ -1,0 +1,17 @@
+version: '3.5'
+services:
+  frontspa:
+    build: .
+    image: vuejs
+    container_name: front
+    restart: always
+    working_dir: /app
+    ports:
+      - 8080:8080
+    volumes:
+      - .:/app
+    networks:
+      - fiap-network
+networks:
+  fiap-network:
+    # name: fiap-network
