@@ -3,7 +3,7 @@ services:
   frontspa:
     build: .
     image: vuejs
-    container_name: front
+    container_name: frontspa
     restart: always
     working_dir: /app
     ports:
